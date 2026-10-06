@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b24">
+  <meta name="description" content="Roadmap interativo do Bacharelado em Sistemas de Informação do IFMG — Campus Ouro Branco, baseado no PPC de outubro de 2022.">
+  <title>Roadmap | Sistemas de Informação — IFMG Ouro Branco</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #e7f0eb;
+      --muted: #a0b0a7;
+      --paper: #0c1410;
+      --surface: #17221c;
+      --line: #2b3931;
+      --forest: #10291f;
+      --green: #65bd8e;
+      --mint: #254332;
+      --lime: #d5f36d;
+      --blue: #1f3949;
+      --purple: #382c4b;
+      --amber: #44381d;
+      --rose: #482f2c;
+      --gray: #29332d;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .25);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 94px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center; gap: 18px;
+      min-height: 68px; padding: 0 clamp(18px, 4vw, 58px);
+      color: #eff8f2; background: rgba(16, 43, 36, .96);
+      border-bottom: 1px solid rgba(255,255,255,.1); backdrop-filter: blur(14px);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.025em; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; color: var(--forest); background: var(--lime); font-size: 17px; }
+    .brand small { display: block; color: #b9c9c0; font-size: 10px; font-weight: 550; letter-spacing: .11em; text-transform: uppercase; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .top-link { color: #d0ded5; text-decoration: none; font-size: 13px; }
+    .top-link:hover { color: #fff; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 40px; padding: 0 14px; border: 1px solid transparent; border-radius: 12px;
+      color: #14231a; background: var(--lime); font-size: 13px; font-weight: 750;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); box-shadow: 0 7px 18px rgba(0,0,0,.12); }
+    .button.secondary { color: #edf6f0; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+    .hero {
+      position: relative; overflow: hidden; color: #f4faf5; background: var(--forest);
+      padding: clamp(44px, 7vw, 92px) clamp(20px, 6vw, 90px) 52px;
+    }
+    .hero::before, .hero::after { content: ""; position: absolute; border: 1px solid rgba(213,243,109,.15); border-radius: 50%; pointer-events: none; }
+    .hero::before { width: 470px; height: 470px; right: -80px; top: -250px; box-shadow: 0 0 0 34px rgba(213,243,109,.025), 0 0 0 70px rgba(213,243,109,.025); }
+    .hero::after { width: 300px; height: 300px; right: 13%; bottom: -255px; box-shadow: 0 0 0 32px rgba(255,255,255,.025); }
+    .hero-inner { position: relative; z-index: 1; max-width: 1240px; margin: auto; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    h1 { max-width: 850px; margin: 17px 0 18px; font-size: clamp(38px, 6vw, 76px); line-height: .99; letter-spacing: -.065em; }
+    h1 span { color: var(--lime); }
+    .hero-copy { max-width: 670px; margin: 0; color: #c4d2ca; font-size: clamp(15px, 1.7vw, 18px); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 27px; }
+    .meta-pill { padding: 7px 11px; color: #e2ece5; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.11); border-radius: 99px; font-size: 12px; }
+    .hero-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); max-width: 790px; margin-top: 48px; border-top: 1px solid rgba(255,255,255,.18); }
+    .hero-stat { padding: 19px 18px 0 0; }
+    .hero-stat strong { display: block; color: #fff; font-size: 25px; letter-spacing: -.045em; }
+    .hero-stat span { display: block; margin-top: 3px; color: #b8c8bf; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+    main { max-width: 1370px; margin: auto; padding: 0 clamp(16px, 4vw, 52px) 72px; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin: 54px 0 20px; }
+    .section-heading h2 { margin: 0; font-size: clamp(25px, 3vw, 36px); letter-spacing: -.055em; }
+    .section-heading p { max-width: 520px; margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .career-section { margin-top: 46px; }
+    .career-heading { margin-bottom: 18px; }
+    .career-heading h2 { margin: 0; font-size: clamp(27px, 3vw, 39px); letter-spacing: -.06em; }
+    .career-heading p { max-width: 700px; margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+    .career-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 11px; }
+    .career-option {
+      position: relative; display: flex; flex-direction: column; min-height: 126px; padding: 16px;
+      color: var(--ink); text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 17px;
+      transition: transform .18s ease, border .18s ease, box-shadow .18s ease;
+    }
+    .career-option:hover { transform: translateY(-2px); border-color: #8cb69b; box-shadow: 0 12px 25px rgba(23,49,38,.07); }
+    .career-option[aria-pressed="true"] { background: #1a3022; border: 2px solid var(--green); padding: 15px; box-shadow: 0 0 0 3px rgba(101,189,142,.1); }
+    .career-icon { display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 13px; color: #11231a; background: #8acba5; border-radius: 11px; font-size: 17px; font-weight: 850; }
+    .career-option:nth-child(3n+2) .career-icon { color: #c4e2f6; background: var(--blue); }
+    .career-option:nth-child(3n) .career-icon { color: #f3d68d; background: var(--amber); }
+    .career-option strong { font-size: 14px; letter-spacing: -.025em; }
+    .career-option small { margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .career-open { position: absolute; right: 15px; top: 21px; color: #73847a; font-size: 16px; }
+    .career-panel { display: none; margin-top: 16px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+    .career-panel.visible { display: block; animation: panel-in .24s ease-out; }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .career-panel-head { display: flex; justify-content: space-between; align-items: start; gap: 20px; padding: 23px 25px; color: white; background: var(--forest); }
+    .career-panel-head h3 { margin: 0; color: white; font-size: 25px; letter-spacing: -.05em; }
+    .career-panel-head p { max-width: 750px; margin: 7px 0 0; color: #c7d7cd; font-size: 12px; }
+    .career-panel-head .button { flex: 0 0 auto; color: var(--forest); }
+    .career-steps { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 13px; padding: 16px; }
+    .career-step { padding: 17px; background: #1b2921; border: 1px solid #304137; border-radius: 16px; }
+    .career-step-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 5px; }
+    .career-step h4 { margin: 0; font-size: 14px; letter-spacing: -.025em; }
+    .career-step .step-index { color: var(--green); font-size: 9px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .career-step > p { margin: 0 0 12px; color: var(--muted); font-size: 11px; }
+    .track-subjects { display: grid; gap: 7px; }
+    .track-subject {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 10px;
+      color: var(--ink); background: #111b15; border: 1px solid #2b3931; border-radius: 11px;
+      text-decoration: none; transition: border .15s ease, background .15s ease;
+    }
+    .track-subject:hover { background: #1c3325; border-color: #5f9e76; }
+    .track-subject strong { display: block; font-size: 11px; line-height: 1.35; }
+    .track-subject small { display: block; margin-top: 3px; color: #9aa99f; font-size: 9px; }
+    .track-subject .subject-right { display: flex; flex: 0 0 auto; align-items: center; gap: 7px; color: #a7b9ad; font-size: 10px; font-weight: 750; }
+    .track-electives { padding: 0 22px 20px; }
+    .track-electives h4 { margin: 4px 0 9px; font-size: 12px; }
+    .elective-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .elective-chip { padding: 7px 10px; color: #d4c4f1; background: var(--purple); border-radius: 10px; font-size: 10px; font-weight: 700; }
+    .career-disclaimer { padding: 12px 22px; color: #b4c4ba; background: #121c16; border-top: 1px solid var(--line); font-size: 10px; }
+    .semester-card, .course { scroll-margin-top: 88px; }
+    .course:target { background: #1b3022; outline: 2px solid #8bb75a; outline-offset: -2px; border-radius: 10px; }
+    .career-empty { display: none; padding: 19px; color: var(--muted); background: var(--surface); border: 1px dashed #48594e; border-radius: 15px; font-size: 12px; }
+    .career-empty.visible { display: block; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 22px; }
+    .search-box { position: relative; flex: 1 1 250px; max-width: 380px; }
+    .search-box span { position: absolute; top: 50%; left: 13px; transform: translateY(-50%); color: #a1b1a7; }
+    .search-box input { width: 100%; height: 43px; padding: 0 14px 0 39px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; outline: none; }
+    .search-box input:focus { border-color: #65bd8e; box-shadow: 0 0 0 3px rgba(101,189,142,.14); }
+    .filter-select { height: 43px; padding: 0 35px 0 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+    .semester-nav { display: flex; gap: 7px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: thin; }
+    .semester-nav a { flex: 0 0 auto; padding: 8px 12px; color: #bdcbc2; background: var(--surface); border: 1px solid var(--line); border-radius: 99px; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .semester-nav a:hover { color: #fff; background: #234333; border-color: #456c54; }
+    .roadmap { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 17px; align-items: start; }
+    .semester-card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 28px rgba(23,49,38,.035); scroll-margin-top: 90px; }
+    .semester-card[hidden] { display: none; }
+    .semester-head { display: flex; justify-content: space-between; gap: 18px; padding: 20px 22px 16px; border-bottom: 1px solid var(--line); }
+    .semester-title { display: flex; align-items: center; gap: 12px; }
+    .semester-num { display: grid; place-items: center; flex: 0 0 42px; height: 42px; color: #d9f4e2; background: var(--mint); border-radius: 14px; font-size: 17px; font-weight: 850; }
+    .semester-title h3 { margin: 0; font-size: 18px; letter-spacing: -.035em; }
+    .semester-title p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+    .semester-hours { flex: 0 0 auto; align-self: center; color: #8ad1a5; font-size: 13px; font-weight: 800; }
+    .semester-focus { padding: 13px 22px; color: #b8cabe; background: #192820; font-size: 12px; }
+    .semester-focus strong { color: var(--green); }
+    .course-list { display: grid; gap: 0; padding: 4px 14px 12px; }
+    .course { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: 10px; padding: 13px 8px; border-bottom: 1px solid #28352d; transition: background .18s ease; }
+    .course:last-child { border-bottom: 0; }
+    .course[hidden] { display: none; }
+    .course-name { font-size: 13px; font-weight: 720; line-height: 1.35; }
+    .course-code { display: block; margin-top: 4px; color: #9baaa1; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; }
+    .course-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+    .tag { display: inline-flex; align-items: center; min-height: 19px; padding: 2px 7px; color: #bac8bf; background: #28342d; border-radius: 99px; font-size: 9px; font-weight: 750; }
+    .tag.math { color: #d2baf5; background: var(--purple); }
+    .tag.admin { color: #b8ddf4; background: var(--blue); }
+    .tag.computing { color: #f2d28e; background: var(--amber); }
+    .tag.tech { color: #b8ebc8; background: var(--mint); }
+    .tag.social { color: #f0c0b7; background: var(--rose); }
+    .tag.complement { color: #c6d0c9; background: var(--gray); }
+    .course-hours { white-space: nowrap; color: #b4c6ba; font-size: 11px; font-weight: 780; }
+    .empty-state { display: none; padding: 30px; color: var(--muted); text-align: center; background: var(--surface); border: 1px dashed #48594e; border-radius: var(--radius); }
+    .empty-state.visible { display: block; }
+    .components { margin-top: 54px; }
+    .component-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .component-card { position: relative; overflow: hidden; padding: 23px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    .component-card::after { content: ""; position: absolute; width: 110px; height: 110px; right: -35px; top: -35px; background: var(--mint); border-radius: 50%; }
+    .component-card > * { position: relative; z-index: 1; }
+    .component-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .component-top h3 { margin: 0; font-size: 17px; letter-spacing: -.035em; }
+    .component-hours { color: var(--green); font-size: 13px; font-weight: 850; }
+    .component-card p { max-width: 570px; margin: 9px 0 16px; color: var(--muted); font-size: 12px; }
+    .pathway { margin-top: 56px; }
+    .pathway-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+    .pathway-item { min-height: 143px; padding: 19px; background: #192820; border: 1px solid #2a3d31; border-radius: 18px; }
+    .pathway-item:nth-child(2) { background: #192732; border-color: #2c4050; }
+    .pathway-item:nth-child(3) { background: #2b2619; border-color: #48402a; }
+    .pathway-item:nth-child(4) { background: #1d2922; border-color: #304036; }
+    .pathway-item .range { color: #8ad1a5; font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .pathway-item h3 { margin: 9px 0 5px; font-size: 15px; letter-spacing: -.03em; }
+    .pathway-item p { margin: 0; color: #b1c0b7; font-size: 11px; line-height: 1.5; }
+    .notes { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; margin-top: 54px; }
+    .note-card { padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+    .note-card h3 { margin: 0 0 12px; font-size: 16px; letter-spacing: -.03em; }
+    .note-card p, .note-card li { color: var(--muted); font-size: 12px; }
+    .note-card p { margin: 0; }
+    .note-card ul { display: grid; gap: 8px; margin: 0; padding-left: 18px; }
+    .source { margin: 30px 0 0; color: #94a39a; font-size: 10px; text-align: center; }
+    footer { padding: 20px; color: #c4d2ca; background: var(--forest); text-align: center; font-size: 11px; }
+    @media (max-width: 900px) {
+      .roadmap { grid-template-columns: 1fr; }
+      .hero-stats { max-width: 100%; }
+      .pathway-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .career-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    @media (max-width: 650px) {
+      .topbar { min-height: 60px; padding: 0 15px; }
+      .top-link { display: none; }
+      .button { min-height: 37px; padding: 0 10px; font-size: 11px; }
+      .hero { padding: 43px 20px 48px; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); row-gap: 12px; margin-top: 34px; }
+      .hero-stat { padding-top: 13px; }
+      .section-heading { display: block; margin-top: 42px; }
+      .section-heading .button { margin-top: 14px; }
+      .career-section { margin-top: 35px; }
+      .career-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+      .career-option { min-height: 115px; padding: 13px; }
+      .career-option[aria-pressed="true"] { padding: 12px; }
+      .career-panel-head { padding: 18px; }
+      .career-panel-head h3 { font-size: 21px; }
+      .career-panel-head .button { font-size: 0; width: 38px; padding: 0; }
+      .career-panel-head .button::after { content: "×"; font-size: 20px; }
+      .career-steps { grid-template-columns: 1fr; padding: 11px; }
+      .track-electives { padding: 0 15px 16px; }
+      .semester-head { padding: 17px; }
+      .semester-focus { padding: 12px 17px; }
+      .course-list { padding-right: 10px; padding-left: 10px; }
+      .component-grid, .notes { grid-template-columns: 1fr; }
+      .pathway-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .pathway-item { padding: 14px; }
+    }
+    @media (max-width: 390px) {
+      .brand { font-size: 12px; }
+      .brand-mark { width: 30px; height: 30px; }
+      .semester-title h3 { font-size: 16px; }
+      .semester-num { flex-basis: 36px; height: 36px; }
+      .semester-hours { font-size: 11px; }
+      .pathway-grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      :root {
+        color-scheme: light;
+        --ink: #13241e;
+        --muted: #66756e;
+        --paper: #fff;
+        --surface: #fff;
+        --line: #d8dfd8;
+        --forest: #12372b;
+        --green: #237a55;
+        --mint: #dff3e6;
+        --blue: #dceeff;
+        --purple: #eee5ff;
+        --amber: #fff0cf;
+        --rose: #ffe2dc;
+        --gray: #eaeeeb;
+      }
+      body { background: white; font-size: 10pt; }
+      .topbar, .controls, .semester-nav, footer { display: none !important; }
+      .hero { padding: 25px 0; color: var(--ink); background: white; }
+      .hero::before, .hero::after { display: none; }
+      .hero-copy, .meta-pill, .hero-stat span { color: #47564e; }
+      .meta-pill { border-color: #cbd4cd; }
+      .hero-stats { border-color: #ccd4cd; }
+      .hero-stat strong { color: var(--ink); }
+      main { max-width: none; padding: 0; }
+      .career-grid { display: none; }
+      .career-panel { display: block !important; box-shadow: none; break-inside: avoid; }
+      .career-panel-head { color: var(--ink); background: #eaf1e9; }
+      .career-panel-head h3, .career-panel-head p { color: var(--ink); }
+      .career-panel-head .button { display: none; }
+      .career-steps { grid-template-columns: repeat(2,1fr); }
+      .career-step, .track-subject, .career-disclaimer, .semester-focus, .pathway-item { color: var(--ink); background: #fff; border-color: #d8dfd8; }
+      .career-step > p, .track-subject small, .track-subject .subject-right, .pathway-item p { color: #526159; }
+      .tag, .tag.math, .tag.admin, .tag.computing, .tag.tech, .tag.social, .tag.complement { color: #405047; background: #edf1ed; }
+      .career-step, .track-subject { break-inside: avoid; }
+      .semester-card, .component-card, .note-card { box-shadow: none; break-inside: avoid; }
+      .roadmap { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .course { padding: 8px 5px; }
+      .semester-card[hidden], .course[hidden] { display: block !important; }
+      .source { color: #444; }
+      .section-heading { margin-top: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Voltar ao início">
+      <span class="brand-mark" aria-hidden="true">⌘</span>
+      <span>IFMG <small>Campus Ouro Branco</small></span>
+    </a>
+    <nav class="top-actions" aria-label="Navegação principal">
+      <a class="top-link" href="#areas">Áreas profissionais</a>
+      <a class="top-link" href="#componentes">Componentes</a>
+      <button class="button secondary" id="printButton" type="button" title="Imprimir ou salvar como PDF">⤓ <span>Imprimir / PDF</span></button>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="eyebrow">Guia de percurso acadêmico · PPC 2022</div>
+      <h1>Seu caminho em<br><span>Sistemas de Informação.</span></h1>
+      <p class="hero-copy">Escolha seu objetivo — Full Stack, Front-end, Back-end, DevOps, Dados & IA, Marketing Digital e outras áreas — e veja quais disciplinas do bacharelado ajudam a construir esse caminho.</p>
+      <div class="hero-meta" aria-label="Informações do curso">
+        <span class="meta-pill">Bacharelado presencial</span>
+        <span class="meta-pill">Turno noturno</span>
+        <span class="meta-pill">Integralização mínima: 8 semestres</span>
+        <span class="meta-pill">50 vagas anuais</span>
+      </div>
+      <div class="hero-stats" aria-label="Resumo do curso">
+        <div class="hero-stat"><strong>3.004 h</strong><span>Carga horária total</span></div>
+        <div class="hero-stat"><strong>8</strong><span>Semestres regulares</span></div>
+        <div class="hero-stat"><strong>2.208 h</strong><span>Disciplinas obrigatórias</span></div>
+        <div class="hero-stat"><strong>320 h</strong><span>Projeto Integrador</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="career-section" id="areas" aria-labelledby="career-title">
+      <div class="career-heading">
+        <div class="eyebrow" style="color:var(--green)">Escolha seu destino</div>
+        <h2 id="career-title">Qual caminho você quer seguir?</h2>
+        <p>Selecione uma área para abrir um roadmap de aprendizagem personalizado. Cada trilha conecta disciplinas do PPC a conhecimentos eletivos úteis para aquele caminho.</p>
+      </div>
+      <div class="career-grid" id="careerGrid" aria-label="Áreas profissionais"></div>
+      <div class="career-empty visible" id="careerEmpty">Escolha uma área acima para ver as etapas, disciplinas relacionadas e optativas recomendadas.</div>
+      <section class="career-panel" id="careerPanel" aria-live="polite" aria-label="Trilha da área selecionada"></section>
+    </section>
+
+    <section id="trilha" aria-labelledby="roadmap-title">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow" style="color:var(--green)">Matriz completa</div>
+          <h2 id="roadmap-title">Disciplinas por semestre</h2>
+          <p>Consulte a matriz integral do curso e busque disciplinas por nome, código ou eixo formativo.</p>
+        </div>
+      </div>
+      <div class="controls" aria-label="Filtros do roadmap">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Buscar disciplina ou código…" aria-label="Buscar disciplina ou código"></label>
+        <select class="filter-select" id="axisFilter" aria-label="Filtrar por eixo formativo">
+          <option value="all">Todos os eixos</option>
+          <option value="computing">Formação computacional</option>
+          <option value="tech">Tecnologia da informação</option>
+          <option value="math">Formação matemática</option>
+          <option value="admin">Formação administrativa</option>
+          <option value="social">Profissional e social</option>
+          <option value="complement">Formação complementar</option>
+        </select>
+      </div>
+      <nav class="semester-nav" aria-label="Ir para o semestre">
+        <a href="#semestre-1">01 · Fundamentos</a><a href="#semestre-2">02 · Estruturas</a><a href="#semestre-3">03 · Construção</a><a href="#semestre-4">04 · Plataformas</a>
+        <a href="#semestre-5">05 · Engenharia</a><a href="#semestre-6">06 · Sistemas</a><a href="#semestre-7">07 · Inteligência</a><a href="#semestre-8">08 · Conclusão</a>
+      </nav>
+      <div class="roadmap" id="roadmapGrid" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState">Nenhuma disciplina corresponde à busca ou ao filtro selecionado.</div>
+    </section>
+
+    <section class="components" id="componentes" aria-labelledby="components-title">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow" style="color:var(--green)">Além das disciplinas</div>
+          <h2 id="components-title">Componentes para integralizar</h2>
+          <p>Estes componentes complementam as disciplinas e totalizam 540 horas da carga horária prevista no PPC.</p>
+        </div>
+      </div>
+      <div class="component-grid">
+        <article class="component-card">
+          <div class="component-top"><h3>Projeto Integrador</h3><span class="component-hours">320 horas</span></div>
+          <p>Atividades integradoras e extensionistas, com projetos interdisciplinares articulados às demandas locais. O PPC prevê projetos do 2º ao 6º período; a curricularização da extensão é obrigatória.</p>
+        </article>
+        <article class="component-card">
+          <div class="component-top"><h3>Atividades Complementares</h3><span class="component-hours">220 horas</span></div>
+          <p>Eventos, iniciação científica, extensão, monitoria, cursos, publicações e outras atividades acadêmico-científico-culturais. A validação segue o regulamento do curso.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="pathway" aria-labelledby="pathway-title">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow" style="color:var(--green)">Visão de formação</div>
+          <h2 id="pathway-title">Como o conhecimento evolui</h2>
+          <p>Uma leitura resumida da progressão acadêmica, conectando os conteúdos curriculares às competências do egresso.</p>
+        </div>
+      </div>
+      <div class="pathway-grid">
+        <article class="pathway-item"><div class="range">1º e 2º semestres</div><h3>Base para pensar e programar</h3><p>Lógica, algoritmos, fundamentos de SI, matemática, comunicação e primeiros conceitos de hardware.</p></article>
+        <article class="pathway-item"><div class="range">3º e 4º semestres</div><h3>Construir sistemas</h3><p>Estruturas de dados, banco de dados, engenharia de software, orientação a objetos, web e sistemas operacionais.</p></article>
+        <article class="pathway-item"><div class="range">5º e 6º semestres</div><h3>Integrar e escalar</h3><p>Redes, governança, estatística, desenvolvimento móvel, decisão organizacional e sistemas distribuídos.</p></article>
+        <article class="pathway-item"><div class="range">7º e 8º semestres</div><h3>Aplicar e concluir</h3><p>Inteligência artificial, IHC, gestão, empreendedorismo, qualidade de software e TCC.</p></article>
+      </div>
+    </section>
+
+    <section class="notes" aria-label="Orientações do curso">
+      <article class="note-card">
+        <h3>Marcos importantes</h3>
+        <ul>
+          <li>O curso é presencial, noturno e organizado em matrícula semestral por disciplina.</li>
+          <li>Prazo mínimo de integralização: 8 semestres; máximo: 16 semestres.</li>
+          <li>Para aprovação em cada disciplina: frequência mínima de 75% e rendimento mínimo de 60%.</li>
+          <li>O estágio supervisionado não é obrigatório, mas experiências profissionais podem ser realizadas ao longo do curso.</li>
+        </ul>
+      </article>
+      <article class="note-card">
+        <h3>Sobre as optativas</h3>
+        <p>A matriz reserva quatro componentes optativos, totalizando 256 horas. A seleção deve respeitar a oferta vigente e as regras do curso. As opções incluem tópicos de dados, redes, IA, software, gestão, inovação, acessibilidade, robótica e outros.</p>
+      </article>
+    </section>
+    <p class="source">Fonte: Projeto Pedagógico do Curso de Bacharelado em Sistemas de Informação — IFMG Campus Ouro Branco, outubro de 2022. Este roadmap é uma síntese visual da matriz curricular.</p>
+  </main>
+  <footer>Instituto Federal de Educação, Ciência e Tecnologia de Minas Gerais · Campus Ouro Branco</footer>
+  <script>
+    "use strict";
+    const semesters = [
+      { n: 1, hours: 320, title: "Fundamentos e visão de SI", focus: "Conhecer a computação, desenvolver raciocínio lógico e compreender organizações e sistemas de informação.", courses: [
+        ["Ética e Legislação",32,"OBBGSIN.044","social"], ["Introdução à Programação",64,"OBBGSIN.085","computing"], ["Introdução a Sistemas de Informação",64,"OBBGSIN.001","computing"], ["Português Instrumental I",32,"OBBGSIN.007","complement"], ["Pré-Cálculo",64,"OBBGSIN.101","math"], ["Princípios da Administração I",64,"OBBGSIN.011","admin"]
+      ]},
+      { n: 2, hours: 320, title: "Lógica, objetos e pesquisa", focus: "Consolidar programação, estruturas lineares e fundamentos matemáticos para a evolução técnica.", courses: [
+        ["Algoritmos e Estrutura de Dados I",64,"OBBGSIN.009","computing"], ["Cálculo Diferencial e Integral I",64,"OBBGSIN.012","math","Pré-Cálculo (OBBGSIN.101)"], ["Inglês Instrumental I",32,"OBBGSIN.003","complement"], ["Métodos e Técnicas de Pesquisa",32,"OBBGSIN.002","social"], ["Programação Orientada a Objetos I",64,"OBBGSIN.010","computing"], ["Sistemas Digitais e Circuitos Combinacionais",64,"OBBGSIN.013","computing"]
+      ]},
+      { n: 3, hours: 320, title: "Dados, arquitetura e software", focus: "Passar da lógica individual à modelagem de dados e ao desenvolvimento disciplinado de software.", courses: [
+        ["Algoritmos e Estrutura de Dados II",64,"OBBGSIN.015","computing"], ["Arquitetura e Organização de Computadores",64,"OBBGSIN.024","computing"], ["Banco de Dados I",64,"OBBGSIN.016","tech"], ["Contabilidade",64,"OBBGSIN.018","admin"], ["Engenharia de Software I",64,"OBBGSIN.017","tech"]
+      ]},
+      { n: 4, hours: 320, title: "Plataformas e aplicações", focus: "Unir programação orientada a objetos, web, sistemas operacionais e base matemática discreta.", courses: [
+        ["Álgebra Linear e Geometria Analítica",64,"OBBGSIN.021","math"], ["Matemática Discreta",64,"OBBGSIN.020","math"], ["Programação Orientada a Objetos II",64,"OBBGSIN.022","computing"], ["Programação WEB",64,"OBBGSIN.023","tech"], ["Sistemas Operacionais",64,"OBBGSIN.030","tech"]
+      ]},
+      { n: 5, hours: 320, title: "Engenharia e governança", focus: "Planejar software, compreender redes e governar informação alinhada à estratégia organizacional.", courses: [
+        ["Engenharia de Software II",64,"OBBGSIN.041","tech"], ["Governança e Gestão da Informação",64,"OBBGSIN.019","tech"], ["Probabilidade e Estatística",64,"OBBGSIN.031","math"], ["Redes de Computadores I",64,"OBBGSIN.029","tech"], ["Optativa I",64,"OPT-1","complement","Escolha uma disciplina optativa ofertada"]
+      ]},
+      { n: 6, hours: 320, title: "Sistemas inteligentes e distribuídos", focus: "Desenvolver soluções móveis, analisar algoritmos e integrar sistemas para apoiar decisões.", courses: [
+        ["Programação para Dispositivos Móveis",64,"OBBGSIN.039","tech"], ["Projeto e Análise de Algoritmos",64,"OBBGSIN.038","computing"], ["Sistemas de Apoio à Decisão",64,"OBBGSIN.036","tech"], ["Sistemas Distribuídos",64,"OBBGSIN.037","tech"], ["Optativa II",64,"OPT-2","complement","Escolha uma disciplina optativa ofertada"]
+      ]},
+      { n: 7, hours: 288, title: "Inteligência, interação e TCC I", focus: "Aplicar IA e design centrado no usuário enquanto estrutura a pesquisa ou produto final.", courses: [
+        ["Gestão de Projetos",32,"OBBGSIN.040","admin"], ["Inteligência Artificial",64,"OBBGSIN.034","tech"], ["Interface Humano Computador",64,"OBBGSIN.026","tech"], ["Trabalho de Conclusão de Curso I",64,"OBBGSIN.091","social"], ["Optativa III",64,"OPT-3","complement","Escolha uma disciplina optativa ofertada"]
+      ]},
+      { n: 8, hours: 256, title: "Qualidade, negócio e conclusão", focus: "Finalizar o trabalho acadêmico, avaliar qualidade e transformar oportunidades em iniciativas sustentáveis.", courses: [
+        ["Empreendedorismo",64,"OBBGSIN.102","admin"], ["Qualidade de Software",64,"OBBGSIN.103","tech"], ["Trabalho de Conclusão de Curso II",64,"OBBGSIN.092","social","Trabalho de Conclusão de Curso I"], ["Optativa IV",64,"OPT-4","complement","Escolha uma disciplina optativa ofertada"]
+      ]}
+    ];
+    const optatives = {
+      "OBBGSIN.025": "Comportamento Organizacional",
+      "OBBGSIN.032": "Redes de Computadores II",
+      "OBBGSIN.033": "Banco de Dados II",
+      "OBBGSIN.035": "Administração Financeira I",
+      "OBBGSIN.049": "Gerência de Projetos de Software",
+      "OBBGSIN.054": "Gestão da Inovação",
+      "OBBGSIN.057": "Avaliação de Empresas",
+      "OBBGSIN.060": "Gestão de Serviços",
+      "OBBGSIN.063": "Tópicos Avançados em Banco de Dados",
+      "OBBGSIN.065": "Tópicos Especiais em Desenvolvimento de Software",
+      "OBBGSIN.066": "Tópicos Especiais em Sistemas Computacionais e Redes de Computadores",
+      "OBBGSIN.068": "Mineração de Dados",
+      "OBBGSIN.070": "Computação Gráfica",
+      "OBBGSIN.074": "Sistemas de Garantia de Qualidade",
+      "OBBGSIN.075": "Inteligência Competitiva",
+      "OBBGSIN.078": "Tópicos Avançados em Engenharia de Software",
+      "OBBGSIN.079": "Cálculo Numérico",
+      "OBBGSIN.081": "Consultoria Empresarial",
+      "OBBGSIN.094": "Gestão de Recursos Humanos",
+      "OBBGSIN.095": "Processamento de Imagens",
+      "OBBGSIN.096": "Tópicos Avançados em Inteligência Artificial",
+      "OBBGSIN.097": "Tópicos em Desenvolvimento de Jogos Digitais",
+      "OBBGSIN.098": "Tópicos Especiais em Automação",
+      "OBBGSIN.099": "Tópicos Especiais em Robótica"
+    };
+    const careerTracks = [
+      {
+        id:"fullstack", icon:"↔", title:"Full Stack", subtitle:"Interfaces, serviços e dados",
+        summary:"Trilha ampla para criar aplicações web completas: da experiência do usuário e interface até APIs, persistência e implantação de sistemas.",
+        stages:[
+          { title:"Fundamentos de programação", text:"Comece pela lógica e pela construção de programas reutilizáveis.", codes:["OBBGSIN.085","OBBGSIN.009","OBBGSIN.010"] },
+          { title:"Interface e experiência", text:"Construa aplicações web e pense o produto a partir das necessidades das pessoas.", codes:["OBBGSIN.023","OBBGSIN.022","OBBGSIN.026"] },
+          { title:"Servidor, dados e integração", text:"Modele a informação, projete software e conheça a comunicação entre serviços.", codes:["OBBGSIN.016","OBBGSIN.017","OBBGSIN.041","OBBGSIN.037"] },
+          { title:"Qualidade e entrega", text:"Valide o produto, organize o trabalho e consolide conhecimentos no projeto final.", codes:["OBBGSIN.103","OBBGSIN.040","OBBGSIN.091","OBBGSIN.092"] }
+        ],
+        electives:["OBBGSIN.033","OBBGSIN.063","OBBGSIN.078","OBBGSIN.065"],
+        practice:"Sugestão de portfólio: desenvolva um sistema web com autenticação, API, banco de dados, testes e documentação. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"frontend", icon:"▣", title:"Front-end", subtitle:"Web e experiência do usuário",
+        summary:"Trilha para desenvolver interfaces acessíveis, responsivas e centradas no usuário, conectando fundamentos de programação, web e IHC.",
+        stages:[
+          { title:"Lógica e programação", text:"Construa a base para transformar requisitos em componentes e interações.", codes:["OBBGSIN.085","OBBGSIN.010"] },
+          { title:"Desenvolvimento web", text:"Aprenda a estruturar aplicações web e organizar código orientado a objetos.", codes:["OBBGSIN.023","OBBGSIN.022"] },
+          { title:"Design centrado no usuário", text:"Projete interfaces, protótipos e avaliações considerando acessibilidade e usabilidade.", codes:["OBBGSIN.026","OBBGSIN.017"] },
+          { title:"Qualidade e evolução", text:"Pratique testes, manutenção e evolução de interfaces como parte de um produto de software.", codes:["OBBGSIN.041","OBBGSIN.103"] }
+        ],
+        electives:["OBBGSIN.070","OBBGSIN.095","OBBGSIN.097","OBBGSIN.065"],
+        practice:"Sugestão de portfólio: crie um site responsivo e acessível, prototipe a navegação e registre testes de usabilidade. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"backend", icon:"{ }", title:"Back-end", subtitle:"APIs, lógica e persistência",
+        summary:"Trilha para projetar a lógica de negócio, APIs, bancos de dados e serviços seguros e escaláveis que sustentam aplicações.",
+        stages:[
+          { title:"Algoritmos e orientação a objetos", text:"Desenvolva soluções estruturadas e organize sistemas em componentes reutilizáveis.", codes:["OBBGSIN.085","OBBGSIN.009","OBBGSIN.015","OBBGSIN.010","OBBGSIN.022"] },
+          { title:"Banco de dados e web", text:"Modele dados relacionais e entenda a arquitetura de aplicações web.", codes:["OBBGSIN.016","OBBGSIN.023"] },
+          { title:"Engenharia e infraestrutura", text:"Trabalhe com processos de software, redes, sistemas operacionais e integração distribuída.", codes:["OBBGSIN.017","OBBGSIN.041","OBBGSIN.030","OBBGSIN.029","OBBGSIN.037"] },
+          { title:"Desempenho e qualidade", text:"Avalie algoritmos, confiabilidade e qualidade dos sistemas desenvolvidos.", codes:["OBBGSIN.038","OBBGSIN.103"] }
+        ],
+        electives:["OBBGSIN.033","OBBGSIN.063","OBBGSIN.078","OBBGSIN.032"],
+        practice:"Sugestão de portfólio: publique uma API documentada com banco relacional, testes automatizados e monitoramento. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"devops", icon:"⇄", title:"DevOps & Cloud", subtitle:"Automação, operação e escala",
+        summary:"Trilha conectada às disciplinas de sistemas, redes, engenharia de software e sistemas distribuídos, com foco em automação e confiabilidade.",
+        stages:[
+          { title:"Computadores e sistemas", text:"Compreenda arquitetura, sistemas operacionais e os ambientes de execução.", codes:["OBBGSIN.024","OBBGSIN.030"] },
+          { title:"Redes e governança", text:"Conheça conectividade, serviços de rede e práticas de gestão de tecnologia.", codes:["OBBGSIN.029","OBBGSIN.019"] },
+          { title:"Automação e distribuição", text:"Aprofunde processos de software, práticas DevOps e arquiteturas distribuídas.", codes:["OBBGSIN.041","OBBGSIN.037"] },
+          { title:"Confiabilidade e entrega", text:"Aplique métricas, testes, qualidade e gestão para operar soluções com segurança.", codes:["OBBGSIN.103","OBBGSIN.040"] }
+        ],
+        electives:["OBBGSIN.032","OBBGSIN.066","OBBGSIN.074","OBBGSIN.049"],
+        practice:"Sugestão de portfólio: automatize build, testes e deploy de uma aplicação e documente observabilidade e recuperação de falhas. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"data-ai", icon:"✳", title:"Dados & IA", subtitle:"Análise, decisão e modelos inteligentes",
+        summary:"Trilha para transformar dados em informação e decisão, avançando de matemática e estatística para bancos de dados, mineração e inteligência artificial.",
+        stages:[
+          { title:"Base matemática", text:"Prepare fundamentos de funções, cálculo, álgebra linear, matemática discreta e estatística.", codes:["OBBGSIN.101","OBBGSIN.012","OBBGSIN.021","OBBGSIN.020","OBBGSIN.031"] },
+          { title:"Dados e informação", text:"Modele bancos relacionais e conecte informação ao processo de decisão organizacional.", codes:["OBBGSIN.016","OBBGSIN.019","OBBGSIN.036"] },
+          { title:"Algoritmos e inteligência", text:"Estude estratégias algorítmicas e técnicas de inteligência artificial e aprendizado de máquina.", codes:["OBBGSIN.038","OBBGSIN.034"] },
+          { title:"Pesquisa aplicada", text:"Investigue um problema e consolide a solução em um trabalho final orientado.", codes:["OBBGSIN.002","OBBGSIN.091","OBBGSIN.092"] }
+        ],
+        electives:["OBBGSIN.068","OBBGSIN.096","OBBGSIN.033","OBBGSIN.063","OBBGSIN.079"],
+        practice:"Sugestão de portfólio: investigue um conjunto de dados, documente o processo de preparação, compare modelos e comunique resultados. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"cybersecurity", icon:"⌑", title:"Redes & Cibersegurança", subtitle:"Infraestrutura, proteção e governança",
+        summary:"Trilha para compreender a infraestrutura de TI, os protocolos de rede, a governança da informação e a proteção de sistemas.",
+        stages:[
+          { title:"Fundamentos técnicos e éticos", text:"Conheça hardware, sistemas digitais e as responsabilidades legais e éticas em computação.", codes:["OBBGSIN.044","OBBGSIN.013","OBBGSIN.024"] },
+          { title:"Sistemas e conectividade", text:"Estude sistemas operacionais, redes e conceitos de comunicação entre computadores.", codes:["OBBGSIN.030","OBBGSIN.029"] },
+          { title:"Governança e sistemas distribuídos", text:"Relacione controles organizacionais, informação, disponibilidade e tolerância a falhas.", codes:["OBBGSIN.019","OBBGSIN.037"] },
+          { title:"Segurança e qualidade", text:"Aplique práticas de qualidade, testes e pesquisa a um problema de segurança da informação.", codes:["OBBGSIN.103","OBBGSIN.091","OBBGSIN.092"] }
+        ],
+        electives:["OBBGSIN.032","OBBGSIN.066","OBBGSIN.078"],
+        practice:"Sugestão de portfólio: monte um laboratório controlado para mapear riscos e documentar medidas de proteção. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"product", icon:"◫", title:"Produto & Projetos", subtitle:"Negócio, pessoas e entrega de valor",
+        summary:"Trilha para atuar na interseção entre tecnologia e organizações, entendendo necessidades, priorizando soluções e coordenando equipes.",
+        stages:[
+          { title:"Organizações e contexto", text:"Entenda sistemas de informação e fundamentos da administração, contabilidade e pesquisa.", codes:["OBBGSIN.001","OBBGSIN.011","OBBGSIN.018","OBBGSIN.002"] },
+          { title:"Informação e decisão", text:"Conecte governança, sistemas de apoio à decisão e interação humano-computador.", codes:["OBBGSIN.019","OBBGSIN.036","OBBGSIN.026"] },
+          { title:"Planejamento de soluções", text:"Aplique engenharia de software e gestão de projetos para conduzir entregas.", codes:["OBBGSIN.017","OBBGSIN.041","OBBGSIN.040"] },
+          { title:"Inovação e negócio", text:"Desenvolva visão empreendedora, valide propostas e conclua um projeto aplicado.", codes:["OBBGSIN.102","OBBGSIN.091","OBBGSIN.092"] }
+        ],
+        electives:["OBBGSIN.054","OBBGSIN.075","OBBGSIN.081","OBBGSIN.025","OBBGSIN.060","OBBGSIN.035"],
+        practice:"Sugestão de portfólio: faça entrevistas com usuários, priorize necessidades, desenhe um roadmap de produto e acompanhe indicadores. Prática complementar, fora da carga horária curricular do PPC."
+      },
+      {
+        id:"marketing", icon:"↗", title:"Marketing Digital", subtitle:"Estratégia, informação e crescimento",
+        summary:"O PPC aborda Marketing Digital dentro de Sistemas de Apoio à Decisão. Esta trilha combina essa base curricular com disciplinas de gestão e optativas relacionadas.",
+        stages:[
+          { title:"Negócio e comunicação", text:"Construa contexto sobre organizações, administração e pesquisa de mercado.", codes:["OBBGSIN.001","OBBGSIN.011","OBBGSIN.002"] },
+          { title:"Dados para decisão", text:"Use estatística e sistemas de informação para analisar cenários e apoiar decisões; a ementa de SAD inclui Marketing Digital.", codes:["OBBGSIN.031","OBBGSIN.019","OBBGSIN.036"] },
+          { title:"Experiência e relacionamento", text:"Considere a experiência das pessoas, serviços e interação com sistemas digitais.", codes:["OBBGSIN.026","OBBGSIN.023"] },
+          { title:"Inovação e iniciativa", text:"Estruture propostas, empreenda e consolide um estudo ou produto em TCC.", codes:["OBBGSIN.102","OBBGSIN.091","OBBGSIN.092"] }
+        ],
+        electives:["OBBGSIN.060","OBBGSIN.054","OBBGSIN.075","OBBGSIN.057","OBBGSIN.035","OBBGSIN.081"],
+        practice:"Sugestão de portfólio: planeje uma campanha digital com público, proposta de valor, métricas e análise de resultados. Prática complementar, fora da carga horária curricular do PPC."
+      }
+    ];
+    const courseByCode = new Map();
+    semesters.forEach(semester => semester.courses.forEach(course => courseByCode.set(course[2], { semester:semester.n, course })));
+    const axisLabels = { computing:"Computação", tech:"Tecnologia da Informação", math:"Matemática", admin:"Administração", social:"Profissional e Social", complement:"Complementar" };
+    const axisClass = { computing:"computing", tech:"tech", math:"math", admin:"admin", social:"social", complement:"complement" };
+    const grid = document.getElementById("roadmapGrid");
+    function safeId(text) { return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+    function renderRoadmap() {
+      grid.innerHTML = semesters.map(semester => `
+        <article class="semester-card" id="semestre-${semester.n}" data-semester="${semester.n}">
+          <header class="semester-head">
+            <div class="semester-title"><span class="semester-num">${String(semester.n).padStart(2,"0")}</span><div><h3>${semester.n}º semestre</h3><p>${semester.title}</p></div></div>
+            <span class="semester-hours">${semester.hours} h</span>
+          </header>
+          <div class="semester-focus"><strong>Foco:</strong> ${semester.focus}</div>
+          <div class="course-list">${semester.courses.map(course => {
+            const [name,hours,code,axis,prereq] = course;
+            return `<div class="course" id="course-${semester.n}-${safeId(code)}" data-axis="${axis}" data-search="${(name+" "+code+" "+(prereq||"")).toLowerCase()}">
+              <span><span class="course-name">${name}</span><span class="course-code">${code.startsWith("OPT-")?"Componente optativo":code}</span><span class="course-tags"><span class="tag ${axisClass[axis]}">${axisLabels[axis]}</span>${prereq?`<span class="tag">Pré: ${prereq}</span>`:""}</span></span>
+              <span class="course-hours">${hours} h</span>
+            </div>`;
+          }).join("")}</div>
+        </article>`).join("");
+      filterCourses();
+    }
+    function renderCareerOptions() {
+      const careerGrid = document.getElementById("careerGrid");
+      careerGrid.innerHTML = careerTracks.map(track => `<button class="career-option" type="button" data-track="${track.id}" aria-pressed="false">
+        <span class="career-icon" aria-hidden="true">${track.icon}</span><strong>${track.title}</strong><small>${track.subtitle}</small><span class="career-open" aria-hidden="true">↗</span>
+      </button>`).join("");
+      careerGrid.querySelectorAll("[data-track]").forEach(button => button.addEventListener("click", () => selectCareer(button.dataset.track)));
+    }
+    function selectCareer(trackId) {
+      const track = careerTracks.find(item => item.id === trackId);
+      if (!track) return;
+      document.querySelectorAll(".career-option").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.track === trackId)));
+      document.getElementById("careerEmpty").classList.remove("visible");
+      const panel = document.getElementById("careerPanel");
+      panel.innerHTML = `
+        <header class="career-panel-head">
+          <div><div class="eyebrow">Roadmap profissional</div><h3>${track.icon} &nbsp;${track.title}</h3><p>${track.summary}</p></div>
+          <button class="button" type="button" id="closeCareer" aria-label="Fechar trilha">Fechar</button>
+        </header>
+        <div class="career-steps">${track.stages.map((stage,index) => `
+          <article class="career-step">
+            <div class="career-step-top"><h4>${stage.title}</h4><span class="step-index">Etapa ${String(index+1).padStart(2,"0")}</span></div>
+            <p>${stage.text}</p>
+            <div class="track-subjects">${stage.codes.map(code => {
+              const item = courseByCode.get(code);
+              if (!item) return `<div class="track-subject"><span><strong>Disciplina não localizada na matriz</strong><small>${code}</small></span></div>`;
+              const [name,hours] = item.course;
+              return `<a class="track-subject" href="#course-${item.semester}-${safeId(code)}"><span><strong>${name}</strong><small>${code} · ${item.semester}º semestre</small></span><span class="subject-right">${hours} h &nbsp;→</span></a>`;
+            }).join("")}</div>
+          </article>`).join("")}</div>
+        <div class="track-electives"><h4>Optativas que podem aprofundar esta área <span class="tag complement">recomendadas</span></h4><div class="elective-list">${track.electives.map(code => `<span class="elective-chip">${optatives[code] || code} · ${code}</span>`).join("")}</div></div>
+        <div class="career-disclaimer"><strong>Prática complementar sugerida:</strong> ${track.practice} Optativas são recomendações de aprofundamento, não pré-requisitos. O estudante deve cumprir quatro componentes optativos (256 h), conforme a oferta e as regras do curso.</div>`;
+      panel.classList.add("visible");
+      document.getElementById("closeCareer").addEventListener("click", closeCareer);
+      panel.querySelectorAll(".track-subject[href^='#course-']").forEach(link => link.addEventListener("click", () => {
+        const course = document.querySelector(`#${link.getAttribute("href").slice(1)}`);
+        if (course && course.hidden) {
+          document.getElementById("searchInput").value = "";
+          document.getElementById("axisFilter").value = "all";
+          filterCourses();
+        }
+      }));
+      if (window.matchMedia("(max-width: 800px)").matches) panel.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+    function closeCareer() {
+      document.querySelectorAll(".career-option").forEach(button => button.setAttribute("aria-pressed","false"));
+      document.getElementById("careerPanel").classList.remove("visible");
+      document.getElementById("careerEmpty").classList.add("visible");
+    }
+    function filterCourses() {
+      const term = document.getElementById("searchInput").value.trim().toLowerCase();
+      const axis = document.getElementById("axisFilter").value;
+      let visibleTotal = 0;
+      document.querySelectorAll(".semester-card").forEach(card => {
+        let visible = 0;
+        card.querySelectorAll(".course").forEach(course => {
+          const match = (!term || course.dataset.search.includes(term)) && (axis === "all" || course.dataset.axis === axis);
+          course.hidden = !match;
+          if (match) visible++;
+        });
+        card.hidden = visible === 0;
+        visibleTotal += visible;
+      });
+      document.getElementById("emptyState").classList.toggle("visible", visibleTotal === 0);
+    }
+    document.getElementById("searchInput").addEventListener("input", filterCourses);
+    document.getElementById("axisFilter").addEventListener("change", filterCourses);
+    document.getElementById("printButton").addEventListener("click", () => window.print());
+    renderRoadmap();
+    renderCareerOptions();
+  </script>
+</body>
+</html>
